@@ -1,3 +1,23 @@
 ## build the docker image
 ## Push the docker image to docker hub
 ## SSH into our VM and start the new image
+
+name: Continous Deployment of the Backend
+
+on:
+  push:
+    branches: [ main ] 
+      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code 
+        uses: actions/checkout@v2
+
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrects.DOCKERHUB_TOKEN }}

@@ -1,20 +1,27 @@
-// import { client } from "@repo/db/client";
-// import { WebSocketServer } from "bun";
+import { client } from "@repo/db/client";
 
-// const server = new WebSocketServer({ port: 8081 });
 
-// server.on("connection", async (ws) => {
-//     console.log("Client connected");
+Bun.serve({
+  port: 8081,
 
-//     // Example of creating a user in your database
-//     await client.user.create({
-//         data: {
-//             username: Math.random().toString(),
-//             password: Math.random().toString()
-//         }
-//     });
+  fetch(req, server) {
+    // Upgrade the request to a WebSocket
+    if (server.upgrade(req)) {
+      return; // Do not return a Response
+    }
+    return new Response("Upgrade failed", { status: 500 });
+  },
 
-//     ws.on("message", (data) => {
-//         ws.send(data); // Echo back received message
-//     });
-// });
+  websocket: {
+    message(ws, message) {
+      client.user.create({
+        data: {
+          username: Math.random().toString(),
+          password: Math.random().toString(),
+        },
+      });
+
+      ws.send(message);
+    },
+  },
+});

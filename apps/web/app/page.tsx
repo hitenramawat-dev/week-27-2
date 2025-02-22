@@ -2,7 +2,6 @@ import { client } from "@repo/db/client";
 
 
 
-
 export default async function Home() {
   const user = await client.user.findMany()
   return (
@@ -11,3 +10,7 @@ export default async function Home() {
    </div>
   );
 }
+
+export const revalidate = 60
+
+//export const dynamic = 'force-dynamic'

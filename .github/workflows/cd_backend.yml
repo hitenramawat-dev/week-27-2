@@ -1,13 +1,12 @@
-## build the docker image
-## Push the docker image to docker hub
+## Build the Docker image
+## Push the Docker image to Docker Hub
 ## SSH into our VM and start the new image
 
-name: Continous Deployment of the Backend
+name: Continuous Deployment of the Backend
 
 on:
   push:
     branches: [ main ] 
-      
 
 jobs:
   build:
@@ -20,13 +19,18 @@ jobs:
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrects.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-           context: .
-           file: ./docker/Dockerfile.backend
-           push: true
-           tags: kkg/todo-app-backend:${{ github.sha }}
+          context: .
+          file: ./docker/Dockerfile.backend
+          push: true
+          tags: kkg/todo-app-backend:${{ github.sha }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: SSH into VM and pull new Docker image

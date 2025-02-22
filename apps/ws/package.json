@@ -5,11 +5,15 @@
   "devDependencies": {
     "@types/bun": "latest"
   },
+  "scripts": {
+    "dev":"node "
+  },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "ws": "^8.18.1",
-    "@repo/db":"workspace:*"
+    "@repo/db": "*",
+    "@types/ws": "^8.5.14",
+    "ws": "^8.18.1"
   }
 }

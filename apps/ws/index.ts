@@ -1,7 +1,7 @@
 import { client } from "@repo/db/client";
 import { WebSocketServer } from "ws";
 
-const server = new WebSocketServer({port:8080})
+const server = new WebSocketServer({port:8081})
 
 server.on('connection',async(ws:WebSocket) => {
     console.log("Client connected");
@@ -16,5 +16,4 @@ server.on('connection',async(ws:WebSocket) => {
     ws.on('message',(data) => {
         ws.send(data)
     })
-
 })
